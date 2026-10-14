@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 50" fill="none">
+  <rect x="0" y="5" width="40" height="40" rx="10" fill="#00B2A9"/>
+  <text x="20" y="31" font-family="'Inter Tight', 'Inter', system-ui, sans-serif" font-size="16" font-weight="900" fill="#14181F" text-anchor="middle">TTF</text>
+  <text x="50" y="32" font-family="'Inter Tight', 'Inter', system-ui, sans-serif" font-size="24" font-weight="900" fill="#FFFFFF">STORE</text>
+</svg>

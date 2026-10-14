@@ -1,0 +1,222 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import products from '../../data/products.json';
+
+export async function getStaticPaths() {
+  return products.map(product => ({
+    params: { id: product.id },
+    props: { product }
+  }));
+}
+
+const { product } = Astro.props;
+
+if (!product) {
+  return Astro.redirect('/404');
+}
+
+const formattedOriginalPrice = product.originalListPrice > 0 
+  ? `${product.originalListPrice.toLocaleString('it-IT', { minimumFractionDigits: 2 })} €` 
+  : null;
+
+const formattedComparePrice = product.comparePrice > 0 
+  ? `${product.comparePrice.toLocaleString('it-IT', { minimumFractionDigits: 2 })} €` 
+  : null;
+
+const formattedFinalPrice = product.price > 0 
+  ? `${product.price.toLocaleString('it-IT', { minimumFractionDigits: 2 })} €` 
+  : 'Richiedi Quotazione';
+---
+
+<Layout 
+  title={`${product.name} — TTF STORE | Scheda Tecnica ${product.brand}`} 
+  description={`${product.name} (${product.brand} mod. ${product.code}) su TTF STORE. Prezzo scontato B2B -40% dal listino.`}
+>
+  <Header slot="header" />
+
+  <main class="min-h-screen bg-paper py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Breadcrumb navigation -->
+      <nav class="flex text-xs font-semibold text-ink-muted mb-6 gap-2 items-center flex-wrap">
+        <a href="/" class="hover:text-teal transition-colors">Home</a>
+        <span>/</span>
+        <a href="/products" class="hover:text-teal transition-colors">Catalogo Ho.Re.Ca.</a>
+        <span>/</span>
+        <a href={`/products?brand=${product.brand}`} class="hover:text-teal transition-colors">{product.brand}</a>
+        <span>/</span>
+        <span class="text-teal font-bold font-mono truncate max-w-xs">{product.code}</span>
+      </nav>
+
+      <!-- Main Product Box -->
+      <div class="bg-white rounded-3xl border border-steel shadow-xs p-6 sm:p-10 mb-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+          
+          <!-- Left Column: Visual Mockup & Badges (5 cols) -->
+          <div class="lg:col-span-5 flex flex-col">
+            <div class="relative bg-paper rounded-2xl p-8 border border-steel flex flex-col items-center justify-center min-h-[340px]">
+              
+              <!-- Top tags -->
+              <div class="absolute top-4 left-4 flex gap-2">
+                <span class="text-xs font-mono font-bold px-2.5 py-1 rounded bg-white text-teal border border-steel uppercase">
+                  {product.brand}
+                </span>
+                <span class="badge-sconto">-40% TOTALE</span>
+              </div>
+
+              <!-- Graphic presentation icon/preview -->
+              <div class="w-32 h-32 rounded-3xl bg-white shadow-sm border border-steel flex items-center justify-center text-teal text-5xl mb-6">
+                ⚙️
+              </div>
+
+              <div class="text-center font-mono">
+                <span class="text-xs text-ink-muted block mb-0.5">CODICE ARTICOLO</span>
+                <span class="text-lg font-black text-ink tracking-wider">{product.code}</span>
+              </div>
+            </div>
+
+            <!-- Trust highlights -->
+            <div class="mt-6 grid grid-cols-2 gap-3 text-xs">
+              <div class="p-3 bg-paper rounded-xl border border-steel flex items-center gap-2">
+                <span class="text-verify font-bold text-base">✓</span>
+                <span class="text-ink font-medium">Garanzia Ufficiale RSM/IT</span>
+              </div>
+              <div class="p-3 bg-paper rounded-xl border border-steel flex items-center gap-2">
+                <span class="text-verify font-bold text-base">✓</span>
+                <span class="text-ink font-medium">Spedizione con Corriere Espresso</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Product Info, Dual Discount Pricing, Actions (7 cols) -->
+          <div class="lg:col-span-7 flex flex-col">
+            <!-- Brand & Category -->
+            <div class="flex items-center gap-2 mb-2 font-mono text-xs">
+              <span class="font-bold text-teal uppercase tracking-wider">{product.brand}</span>
+              <span class="text-steel-dark">•</span>
+              <span class="text-ink-muted">{product.category}</span>
+              {product.subCategory && (
+                <>
+                  <span class="text-steel-dark">•</span>
+                  <span class="text-ink-muted">{product.subCategory}</span>
+                </>
+              )}
+            </div>
+
+            <!-- Title -->
+            <h1 class="text-2xl sm:text-3xl font-extrabold text-ink tracking-tight leading-snug mb-4">
+              {product.name}
+            </h1>
+
+            <!-- Description -->
+            <div class="text-sm text-ink-muted leading-relaxed mb-6 bg-paper p-4 rounded-xl border border-steel whitespace-pre-line">
+              {product.description}
+            </div>
+
+            <!-- Pricing Box TTF STORE: -30% + Sbarrato 10% = 40% Totale -->
+            <div class="p-6 rounded-2xl bg-ink text-white shadow-md mb-6">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+                <div>
+                  <div class="flex items-center gap-2 mb-1">
+                    <span class="badge-sconto text-xs font-mono font-bold">-40% SCONTO SPECIALE</span>
+                    <span class="text-[11px] text-gray-400 font-mono">Listino Ufficiale B2B</span>
+                  </div>
+
+                  <!-- Dual price display: Listino -> Sbarrato (-30%) -> Finale (-40%) -->
+                  {product.originalListPrice > 0 && (
+                    <div class="space-y-0.5 mt-2 font-mono text-xs text-gray-300">
+                      <div>
+                        Prezzo di listino originale: <span class="line-through text-gray-400">{formattedOriginalPrice}</span>
+                      </div>
+                      <div class="text-amber-300 flex items-center gap-2 font-bold">
+                        <span>Prezzo con sconto 30%:</span>
+                        <span class="line-through text-red-400 text-sm font-black">{formattedComparePrice}</span>
+                        <span class="bg-red-500/20 text-red-300 px-1.5 py-0.5 rounded text-[10px] border border-red-500/30">-10% Ulteriore Sbarrato</span>
+                      </div>
+                    </div>
+                  )}
+
+                  <div class="text-3xl sm:text-4xl font-black text-teal font-mono mt-3">
+                    {formattedFinalPrice}
+                    <span class="text-xs font-normal text-gray-400 ml-1">IVA escl.</span>
+                  </div>
+                  <span class="text-[11px] text-gray-400 block mt-1 font-mono">Totale risparmio: 40% rispetto al listino standard</span>
+                </div>
+
+                <div class="shrink-0 flex flex-col gap-2">
+                  <a 
+                    href={`mailto:postmaster@ttfstore.com?subject=Ordine%20TTF%20STORE%20-%20${encodeURIComponent(product.name)}%20(Cod.%20${encodeURIComponent(product.code)})`}
+                    class="inline-flex items-center justify-center px-6 py-3.5 bg-teal hover:bg-teal-dark text-ink font-bold rounded-xl shadow-md transition-all duration-200 hover:scale-105 text-sm"
+                  >
+                    Richiedi Ordine / Preventivo
+                    <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                    </svg>
+                  </a>
+                  <span class="text-[10px] text-gray-400 text-center font-mono">TTF GROUP S.R.L. · COE SM26425</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Fast Contact Phone / Email -->
+            <div class="flex flex-wrap items-center justify-between text-xs text-ink-muted pt-2 border-t border-steel gap-2 font-mono">
+              <span>Magazzino: <strong>Dogana (Repubblica di San Marino)</strong></span>
+              <span>Email: <a href="mailto:postmaster@ttfstore.com" class="text-teal font-bold hover:underline">postmaster@ttfstore.com</a></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Technical Specifications Table -->
+      <section class="bg-white rounded-3xl border border-steel shadow-xs p-6 sm:p-10">
+        <div class="border-b border-steel pb-4 mb-6 flex items-center justify-between">
+          <div>
+            <h2 class="text-xl font-extrabold text-ink tracking-tight">Specifiche Tecniche del Costruttore</h2>
+            <p class="text-xs text-ink-muted mt-1">Caratteristiche ufficiali certificate per {product.name}</p>
+          </div>
+          <span class="text-xs font-mono font-bold px-3 py-1 bg-paper text-teal rounded-full border border-steel">
+            {product.specifications ? product.specifications.length : 0} Parametri Tecnici
+          </span>
+        </div>
+
+        {product.specifications && product.specifications.length > 0 ? (
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse text-xs sm:text-sm">
+              <thead>
+                <tr class="bg-paper text-ink uppercase text-[11px] font-mono font-bold tracking-wider">
+                  <th class="py-3 px-4 rounded-l-xl">Parametro</th>
+                  <th class="py-3 px-4 rounded-r-xl">Valore</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-steel/50">
+                {product.specifications.map((spec, idx) => (
+                  <tr class={idx % 2 === 0 ? 'bg-white' : 'bg-paper/40'}>
+                    <td class="py-3 px-4 font-semibold text-ink w-1/2">{spec.label}</td>
+                    <td class="py-3 px-4 font-mono text-ink font-medium w-1/2">{spec.value}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <div class="p-8 text-center bg-paper rounded-2xl text-ink-muted text-xs">
+            Nessuna specifica supplementare richiesta per questo accessorio.
+          </div>
+        )}
+
+        <div class="mt-8 pt-6 border-t border-steel flex items-center justify-between">
+          <a href="/products" class="text-xs font-bold text-teal hover:underline flex items-center gap-1 font-mono">
+            ← Torna al Catalogo Ho.Re.Ca.
+          </a>
+          <a href="#top" class="text-xs font-mono text-ink-faint hover:text-ink">
+            Torna su ↑
+          </a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <Footer slot="footer" />
+</Layout>

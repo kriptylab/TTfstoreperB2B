@@ -1,11 +1,170 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import Footer from '../components/Footer.astro';
+import products from '../data/products.json';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const totalCount = products.length;
+const fimarCount = products.filter(p => p.brand === 'FIMAR').length;
+const forcoldCount = products.filter(p => p.brand === 'FORCOLD').length;
+const easylineCount = products.filter(p => p.brand === 'EASYLINE').length;
+
+// Prendi 4 prodotti di punta in offerta
+const featured = products
+  .filter(p => p.price > 300)
+  .slice(0, 4);
 ---
 
-<Layout>
-	<Welcome />
+<Layout title="TTF STORE — Attrezzature Professionali Ho.Re.Ca. | Offerte B2B fino al 40%">
+  <Header slot="header" />
+
+  <main>
+    <Hero />
+
+    <!-- Promo Banner Strip -->
+    <section class="bg-teal py-4 text-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+        <div class="flex items-center gap-3">
+          <span class="text-2xl">🔥</span>
+          <div>
+            <h2 class="text-base font-bold tracking-tight">SPECIALE PROMOZIONE HO.RE.CA: -30% LISTINO + EXTRA -10% SCONTO SBARNATO</h2>
+            <p class="text-xs text-white/90">Sconto complessivo del 40% su tutti i marchi ufficiali per ordini e forniture professionali.</p>
+          </div>
+        </div>
+        <a href="/products" class="shrink-0 px-5 py-2.5 bg-ink text-white font-bold text-xs rounded-xl hover:bg-white hover:text-ink transition-colors duration-200">
+          Vedi Tutti i Prodotti →
+        </a>
+      </div>
+    </section>
+
+    <!-- Brands Section TTF STORE Style -->
+    <section id="brand" class="py-20 bg-white border-b border-steel/60">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-16">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-teal-light text-teal font-mono text-xs font-bold uppercase tracking-wider mb-3">
+            CATALOGHI UFFICIALI 2026/2027
+          </span>
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-ink tracking-tight">I Nostri Brand Partner</h2>
+          <p class="mt-4 text-ink-muted text-sm sm:text-base leading-relaxed">
+            TTF STORE distribuisce direttamente le migliori attrezzature con listini scontati, garanzia ufficiale e assistenza ricambi.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- FORCOLD -->
+          <div class="p-8 rounded-2xl bg-paper border border-steel hover:border-teal hover:shadow-xl transition-all duration-300 flex flex-col group">
+            <div class="flex items-center justify-between mb-6">
+              <span class="font-mono text-2xl font-black text-ink tracking-wider">FORCOLD</span>
+              <span class="badge-sconto">-40% TOTALE</span>
+            </div>
+            <p class="text-xs font-bold text-teal uppercase tracking-wider mb-2">Refrigerazione Professionale</p>
+            <p class="text-sm text-ink-muted leading-relaxed mb-6 flex-1">
+              Armadi frigo ventilati, tavoli gastronomia GN1/1, saladette pizza e vetrine espositive ad alta efficienza energetica.
+            </p>
+            <div class="pt-4 border-t border-steel flex items-center justify-between">
+              <span class="text-xs font-mono font-bold text-ink-muted">{forcoldCount} Articoli</span>
+              <a href="/products?brand=FORCOLD" class="text-xs font-bold text-teal hover:text-teal-dark flex items-center gap-1">
+                Esplora Forcold →
+              </a>
+            </div>
+          </div>
+
+          <!-- EASYLINE -->
+          <div class="p-8 rounded-2xl bg-paper border border-steel hover:border-teal hover:shadow-xl transition-all duration-300 flex flex-col group">
+            <div class="flex items-center justify-between mb-6">
+              <span class="font-mono text-2xl font-black text-ink tracking-wider">EASYLINE</span>
+              <span class="badge-sconto">-40% TOTALE</span>
+            </div>
+            <p class="text-xs font-bold text-teal uppercase tracking-wider mb-2">Cottura & Snack Bar</p>
+            <p class="text-sm text-ink-muted leading-relaxed mb-6 flex-1">
+              Macchine sottovuoto a barra, piastre in ghisa, forni compatti, friggitrici e soluzioni veloci per bar e fast food.
+            </p>
+            <div class="pt-4 border-t border-steel flex items-center justify-between">
+              <span class="text-xs font-mono font-bold text-ink-muted">{easylineCount} Articoli</span>
+              <a href="/products?brand=EASYLINE" class="text-xs font-bold text-teal hover:text-teal-dark flex items-center gap-1">
+                Esplora Easyline →
+              </a>
+            </div>
+          </div>
+
+          <!-- FIMAR -->
+          <div class="p-8 rounded-2xl bg-paper border border-steel hover:border-teal hover:shadow-xl transition-all duration-300 flex flex-col group">
+            <div class="flex items-center justify-between mb-6">
+              <span class="font-mono text-2xl font-black text-ink tracking-wider">FIMAR</span>
+              <span class="badge-sconto">-40% TOTALE</span>
+            </div>
+            <p class="text-xs font-bold text-teal uppercase tracking-wider mb-2">Preparazione, Macchinari & Lavaggio</p>
+            <p class="text-sm text-ink-muted leading-relaxed mb-6 flex-1">
+              Impastatrici a spirale, tritacarne, affettatrici, pelapatate, lavastoviglie professionali e ricambi originali.
+            </p>
+            <div class="pt-4 border-t border-steel flex items-center justify-between">
+              <span class="text-xs font-mono font-bold text-ink-muted">{fimarCount} Articoli</span>
+              <a href="/products?brand=FIMAR" class="text-xs font-bold text-teal hover:text-teal-dark flex items-center gap-1">
+                Esplora Fimar →
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Top Deals Highlight with Discounts -->
+    <section class="py-20 bg-paper">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-12 gap-4">
+          <div>
+            <span class="text-xs font-mono font-bold text-teal uppercase tracking-wider">OFFERTE IN EVIDENZA</span>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-ink tracking-tight mt-1">Attrezzature con Prezzo Scontato</h2>
+          </div>
+          <a href="/products" class="text-sm font-bold text-teal hover:underline flex items-center gap-1">
+            Vedi tutti i 3.050 prodotti →
+          </a>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {featured.map(p => (
+            <article class="bg-white rounded-2xl border border-steel/80 p-5 flex flex-col hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-teal-light text-teal uppercase font-mono">
+                  {p.brand}
+                </span>
+                <span class="badge-sconto">-40%</span>
+              </div>
+
+              <div class="py-6 flex items-center justify-center bg-paper rounded-xl mb-4">
+                <span class="text-4xl">⚙️</span>
+              </div>
+
+              <span class="text-[10px] font-mono text-ink-faint">Cod: {p.code}</span>
+              <h3 class="text-sm font-bold text-ink line-clamp-2 mt-1 leading-snug">{p.name}</h3>
+
+              <!-- Pricing block with double discount visualization -->
+              <div class="mt-auto pt-4 border-t border-steel/60">
+                <div class="text-[10px] text-ink-muted flex items-center justify-between">
+                  <span>Listino: <span class="line-through">{p.originalListPrice.toLocaleString('it-IT', { minimumFractionDigits: 2 })} €</span></span>
+                  <span class="text-outlet font-bold font-mono">-30%</span>
+                </div>
+                <div class="text-[11px] text-ink-muted flex items-center justify-between mt-0.5">
+                  <span>Prezzo base: <span class="line-through">{p.comparePrice.toLocaleString('it-IT', { minimumFractionDigits: 2 })} €</span></span>
+                  <span class="text-teal font-bold font-mono">-10% Extra</span>
+                </div>
+
+                <div class="mt-2 flex items-baseline justify-between">
+                  <span class="text-xl font-black text-teal font-mono">
+                    {p.price.toLocaleString('it-IT', { minimumFractionDigits: 2 })} €
+                  </span>
+                  <a href={`/products/${encodeURIComponent(p.id)}`} class="px-3 py-1.5 bg-ink hover:bg-teal text-white rounded-lg text-xs font-bold transition-colors">
+                    Dettagli
+                  </a>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer slot="footer" />
 </Layout>

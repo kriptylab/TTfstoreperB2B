@@ -1,0 +1,81 @@
+---
+import TopBar from './TopBar.astro';
+---
+
+<TopBar />
+
+<header class="sticky top-0 z-40 bg-white border-b border-steel/60 shadow-xs backdrop-blur-md bg-white/95">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16 md:h-20 gap-4">
+      
+      <!-- TTF STORE Official Logo -->
+      <a href="/" class="shrink-0 flex items-center gap-2.5 group" aria-label="TTF STORE Home">
+        <img
+          src="/immagini/ttf-logo.png"
+          alt="TTF STORE Logo"
+          class="h-9 md:h-11 w-auto object-contain transition-transform duration-200 group-hover:scale-105"
+          width="120"
+          height="40"
+        />
+        <div class="flex flex-col">
+          <span class="font-extrabold text-xl md:text-2xl tracking-tight text-ink flex items-center gap-1">
+            STORE <span class="text-xs px-2 py-0.5 rounded-md bg-teal/15 text-teal font-mono uppercase tracking-wider font-bold">Ho.Re.Ca.</span>
+          </span>
+          <span class="text-[10px] text-ink-muted hidden sm:block">Attrezzature Professionali & Ristorazione</span>
+        </div>
+      </a>
+
+      <!-- Quick Search Bar Styled TTF STORE -->
+      <div class="flex-1 max-w-xl hidden md:block">
+        <form action="/products" method="GET" class="relative flex items-center">
+          <input
+            type="text"
+            name="q"
+            id="header-search-input"
+            placeholder="Cerca tra 3.050 articoli, codici o brand (es. Fimar, Forcold, Easyline)..."
+            class="w-full h-11 pl-4 pr-12 rounded-xl bg-paper border border-steel text-sm text-ink outline-none transition-all duration-150 focus:border-teal focus:ring-2 focus:ring-teal/20"
+            aria-label="Cerca prodotti TTF STORE"
+          />
+          <button
+            type="submit"
+            class="absolute right-1 top-1/2 -translate-y-1/2 h-9 px-3.5 rounded-lg text-white font-bold text-xs flex items-center justify-center transition-all duration-150 hover:opacity-90"
+            style="background-color: #00B2A9;"
+            title="Cerca prodotti"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+          </button>
+        </form>
+      </div>
+
+      <!-- Nav links -->
+      <nav class="hidden lg:flex items-center space-x-6 text-sm font-semibold text-ink">
+        <a href="/" class="hover:text-teal transition-colors duration-150">Home</a>
+        <a href="/products" class="text-teal font-bold flex items-center gap-1.5">
+          <span>Catalogo Ho.Re.Ca.</span>
+          <span class="badge-sconto text-[10px]">-40%</span>
+        </a>
+        <a href="/products?brand=FORCOLD" class="hover:text-teal transition-colors duration-150">Forcold</a>
+        <a href="/products?brand=FIMAR" class="hover:text-teal transition-colors duration-150">Fimar</a>
+        <a href="/products?brand=EASYLINE" class="hover:text-teal transition-colors duration-150">Easyline</a>
+      </nav>
+
+      <!-- Right Action CTA -->
+      <div class="flex items-center gap-3">
+        <a 
+          href="/products"
+          class="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-teal-light text-teal-dark font-bold text-xs hover:bg-teal hover:text-white transition-all duration-200"
+        >
+          <span>3.050 Articoli</span>
+        </a>
+        <a
+          href="mailto:postmaster@ttfstore.com?subject=Richiesta%20Preventivo%20HoReCa%20TTF%20STORE"
+          class="inline-flex items-center justify-center px-4 py-2 text-xs font-bold text-white bg-ink hover:bg-teal rounded-xl shadow-xs transition-colors duration-200"
+        >
+          Preventivo B2B
+        </a>
+      </div>
+    </div>
+  </div>
+</header>

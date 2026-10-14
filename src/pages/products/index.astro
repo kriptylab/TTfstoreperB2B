@@ -1,0 +1,390 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import products from '../../data/products.json';
+
+// Calculate distinct categories and counts
+const brands = [
+  { name: 'FORCOLD', count: products.filter(p => p.brand === 'FORCOLD').length },
+  { name: 'EASYLINE', count: products.filter(p => p.brand === 'EASYLINE').length },
+  { name: 'FIMAR', count: products.filter(p => p.brand === 'FIMAR').length }
+];
+
+const categoryCounts = {};
+products.forEach(p => {
+  if (p.category) {
+    categoryCounts[p.category] = (categoryCounts[p.category] || 0) + 1;
+  }
+});
+const topCategories = Object.entries(categoryCounts)
+  .sort((a, b) => b[1] - a[1])
+  .slice(0, 10);
+---
+
+<Layout title="Catalogo Prodotti Ho.Re.Ca. | TTF STORE — Sconti fino al 40%">
+  <Header slot="header" />
+
+  <main class="min-h-screen bg-paper py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Top banner promo -->
+      <div class="mb-6 p-4 rounded-2xl bg-white border border-steel flex flex-col md:flex-row items-center justify-between gap-4 shadow-xs">
+        <div class="flex items-center gap-3">
+          <span class="badge-sconto-extra text-xs">OFFERTA TTF STORE</span>
+          <p class="text-xs sm:text-sm text-ink font-medium">
+            Tutti i prezzi visualizzati comprendono il <strong>30% di sconto base</strong> + un <strong>ulteriore 10% di sconto sbarrato</strong> (Totale <strong>-40%</strong> sul listino ufficiale).
+          </p>
+        </div>
+        <span class="text-xs font-mono font-bold text-teal whitespace-nowrap">3.050 Articoli Certificati</span>
+      </div>
+
+      <!-- Breadcrumb & Title -->
+      <div class="mb-8">
+        <nav class="flex text-xs font-semibold text-ink-muted mb-2 gap-2 items-center">
+          <a href="/" class="hover:text-teal">Home</a>
+          <span>/</span>
+          <span class="text-teal font-bold">Catalogo Attrezzature</span>
+        </nav>
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+          <div>
+            <h1 class="text-2xl sm:text-3xl font-extrabold text-ink tracking-tight">Catalogo Attrezzature Ho.Re.Ca.</h1>
+            <p class="text-xs sm:text-sm text-ink-muted mt-1">
+              Visualizzati <span id="displayed-count" class="font-bold text-teal">{products.length}</span> articoli con prezzo scontato e specifiche tecniche.
+            </p>
+          </div>
+
+          <!-- Instant Search Box -->
+          <div class="relative w-full md:w-80">
+            <input
+              type="text"
+              id="search-input"
+              placeholder="Cerca per codice, modello, nome..."
+              class="w-full pl-10 pr-4 py-2.5 bg-white border border-steel rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal/30 focus:border-teal shadow-xs transition-all duration-200"
+            />
+            <div class="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+              <svg class="w-4 h-4 text-ink-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 105.636 3.636m11.263 11.263L9.75 9.75"></path>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Layout: Sidebar Filters + Products Grid -->
+      <div class="flex flex-col lg:flex-row gap-8 items-start">
+        <!-- Sidebar Filters -->
+        <aside class="w-full lg:w-64 bg-white p-6 rounded-2xl border border-steel shadow-xs shrink-0 sticky top-28">
+          <div class="flex items-center justify-between pb-4 border-b border-steel">
+            <h2 class="text-sm font-bold text-ink uppercase tracking-wider font-mono">Filtri</h2>
+            <button id="reset-filters" class="text-xs font-semibold text-teal hover:underline">
+              Azzera tutto
+            </button>
+          </div>
+
+          <!-- Brand Filter -->
+          <div class="mt-6">
+            <h3 class="text-xs font-bold text-ink-muted uppercase tracking-wider mb-3 font-mono">Brand</h3>
+            <div class="space-y-2.5">
+              {brands.map(b => (
+                <label class="flex items-center justify-between cursor-pointer group">
+                  <div class="flex items-center gap-2.5">
+                    <input 
+                      type="checkbox" 
+                      value={b.name} 
+                      class="brand-checkbox rounded text-teal focus:ring-teal h-4 w-4 border-steel accent-teal cursor-pointer" 
+                    />
+                    <span class="text-sm font-medium text-ink group-hover:text-teal">{b.name}</span>
+                  </div>
+                  <span class="text-xs text-ink-muted font-mono">({b.count})</span>
+                </label>
+              ))}
+            </div>
+          </div>
+
+          <!-- Price Range Filter -->
+          <div class="mt-8 pt-6 border-t border-steel">
+            <h3 class="text-xs font-bold text-ink-muted uppercase tracking-wider mb-3 font-mono">Prezzo Scontato</h3>
+            <div class="space-y-2">
+              <label class="flex items-center gap-2.5 text-xs text-ink cursor-pointer">
+                <input type="radio" name="price-filter" value="all" checked class="accent-teal" />
+                <span>Tutti i prezzi</span>
+              </label>
+              <label class="flex items-center gap-2.5 text-xs text-ink cursor-pointer">
+                <input type="radio" name="price-filter" value="0-100" class="accent-teal" />
+                <span>Fino a 100 €</span>
+              </label>
+              <label class="flex items-center gap-2.5 text-xs text-ink cursor-pointer">
+                <input type="radio" name="price-filter" value="100-500" class="accent-teal" />
+                <span>100 € - 500 €</span>
+              </label>
+              <label class="flex items-center gap-2.5 text-xs text-ink cursor-pointer">
+                <input type="radio" name="price-filter" value="500-1500" class="accent-teal" />
+                <span>500 € - 1.500 €</span>
+              </label>
+              <label class="flex items-center gap-2.5 text-xs text-ink cursor-pointer">
+                <input type="radio" name="price-filter" value="1500+" class="accent-teal" />
+                <span>Oltre 1.500 €</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Top Categories -->
+          <div class="mt-8 pt-6 border-t border-steel">
+            <h3 class="text-xs font-bold text-ink-muted uppercase tracking-wider mb-3 font-mono">Categorie</h3>
+            <div class="space-y-2 max-h-48 overflow-y-auto pr-1 text-xs">
+              {topCategories.map(([cat, cnt]) => (
+                <label class="flex items-center justify-between cursor-pointer group">
+                  <div class="flex items-center gap-2">
+                    <input type="checkbox" value={cat} class="cat-checkbox rounded text-teal accent-teal h-3.5 w-3.5 border-steel" />
+                    <span class="text-ink-muted group-hover:text-teal truncate max-w-[120px]">{cat}</span>
+                  </div>
+                  <span class="text-ink-faint font-mono">({cnt})</span>
+                </label>
+              ))}
+            </div>
+          </div>
+        </aside>
+
+        <!-- Product Grid Area -->
+        <div class="flex-1 w-full">
+          <!-- Active filter indicators -->
+          <div id="filter-bar" class="mb-4 flex flex-wrap gap-2 items-center text-xs text-ink-muted">
+            <span>Filtro attivo:</span>
+            <span id="active-tag" class="px-2.5 py-1 bg-white text-ink rounded-md font-medium border border-steel font-mono">
+              Tutti i 3.050 articoli
+            </span>
+          </div>
+
+          <!-- Products container rendered on client -->
+          <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+            <!-- Populated by JS -->
+          </div>
+
+          <!-- Pagination Bar -->
+          <div id="pagination-wrapper" class="mt-10 flex flex-col sm:flex-row items-center justify-between gap-4 p-4 bg-white rounded-2xl border border-steel shadow-xs">
+            <span id="page-info" class="text-xs sm:text-sm text-ink-muted font-mono font-medium">
+              Pagina 1 di 100
+            </span>
+            <div class="flex items-center gap-2">
+              <button id="prev-page" class="px-4 py-2 text-xs font-bold text-ink bg-paper hover:bg-steel rounded-xl transition-colors disabled:opacity-40 disabled:cursor-not-allowed">
+                ← Precedente
+              </button>
+              <button id="next-page" class="px-4 py-2 text-xs font-bold text-ink bg-paper hover:bg-steel rounded-xl transition-colors disabled:opacity-40 disabled:cursor-not-allowed">
+                Successiva →
+              </button>
+            </div>
+          </div>
+
+          <!-- Empty state -->
+          <div id="no-results" class="hidden text-center py-20 bg-white rounded-2xl border border-steel">
+            <div class="text-4xl mb-3">🔍</div>
+            <h3 class="text-base font-bold text-ink">Nessun prodotto trovato</h3>
+            <p class="text-xs text-ink-muted mt-1">Prova a cambiare parola chiave o reimposta i filtri.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <Footer slot="footer" />
+</Layout>
+
+<!-- Client script with discount calculations and sbarrato logic -->
+<script is:inline define:vars={{ initialProducts: products }}>
+  let allProducts = initialProducts;
+  let filteredProducts = [...allProducts];
+  let currentPage = 1;
+  const pageSize = 24;
+
+  const searchInput = document.getElementById('search-input');
+  const productsGrid = document.getElementById('products-grid');
+  const displayedCount = document.getElementById('displayed-count');
+  const pageInfo = document.getElementById('page-info');
+  const prevBtn = document.getElementById('prev-page');
+  const nextBtn = document.getElementById('next-page');
+  const noResults = document.getElementById('no-results');
+  const resetBtn = document.getElementById('reset-filters');
+  const brandCheckboxes = document.querySelectorAll('.brand-checkbox');
+  const catCheckboxes = document.querySelectorAll('.cat-checkbox');
+  const priceRadios = document.querySelectorAll('input[name="price-filter"]');
+
+  // Check URL params for initial filters
+  const urlParams = new URLSearchParams(window.location.search);
+  const brandParam = urlParams.get('brand');
+  const qParam = urlParams.get('q');
+
+  if (brandParam) {
+    brandCheckboxes.forEach(cb => {
+      if (cb.value.toUpperCase() === brandParam.toUpperCase()) {
+        cb.checked = true;
+      }
+    });
+  }
+  if (qParam && searchInput) {
+    searchInput.value = qParam;
+  }
+
+  function applyFilters() {
+    const query = searchInput.value.toLowerCase().trim();
+    const selectedBrands = Array.from(brandCheckboxes)
+      .filter(cb => cb.checked)
+      .map(cb => cb.value.toUpperCase());
+    const selectedCats = Array.from(catCheckboxes)
+      .filter(cb => cb.checked)
+      .map(cb => cb.value.toLowerCase());
+    
+    let priceRange = 'all';
+    priceRadios.forEach(r => {
+      if (r.checked) priceRange = r.value;
+    });
+
+    filteredProducts = allProducts.filter(p => {
+      if (selectedBrands.length > 0 && !selectedBrands.includes(p.brand.toUpperCase())) {
+        return false;
+      }
+
+      if (selectedCats.length > 0 && !selectedCats.includes((p.category || '').toLowerCase())) {
+        return false;
+      }
+
+      if (priceRange === '0-100' && p.price > 100) return false;
+      if (priceRange === '100-500' && (p.price < 100 || p.price > 500)) return false;
+      if (priceRange === '500-1500' && (p.price < 500 || p.price > 1500)) return false;
+      if (priceRange === '1500+' && p.price < 1500) return false;
+
+      if (query) {
+        const matchName = p.name && p.name.toLowerCase().includes(query);
+        const matchCode = p.code && p.code.toLowerCase().includes(query);
+        const matchDesc = p.description && p.description.toLowerCase().includes(query);
+        const matchCat = p.category && p.category.toLowerCase().includes(query);
+        if (!matchName && !matchCode && !matchDesc && !matchCat) {
+          return false;
+        }
+      }
+
+      return true;
+    });
+
+    currentPage = 1;
+    render();
+  }
+
+  function render() {
+    const total = filteredProducts.length;
+    displayedCount.textContent = total.toLocaleString('it-IT');
+
+    if (total === 0) {
+      productsGrid.innerHTML = '';
+      noResults.classList.remove('hidden');
+      document.getElementById('pagination-wrapper').classList.add('hidden');
+      return;
+    }
+
+    noResults.classList.add('hidden');
+    document.getElementById('pagination-wrapper').classList.remove('hidden');
+
+    const totalPages = Math.ceil(total / pageSize);
+    const start = (currentPage - 1) * pageSize;
+    const end = Math.min(start + pageSize, total);
+    const pageItems = filteredProducts.slice(start, end);
+
+    pageInfo.textContent = `Mostrando ${start + 1}-${end} di ${total.toLocaleString('it-IT')} articoli (Pag. ${currentPage} di ${totalPages})`;
+    prevBtn.disabled = currentPage <= 1;
+    nextBtn.disabled = currentPage >= totalPages;
+
+    let html = '';
+    for (const p of pageItems) {
+      const formattedFinalPrice = p.price > 0 ? `${p.price.toLocaleString('it-IT', { minimumFractionDigits: 2 })} €` : 'Su Richiesta';
+      const formattedComparePrice = p.comparePrice > 0 ? `${p.comparePrice.toLocaleString('it-IT', { minimumFractionDigits: 2 })} €` : '';
+      const formattedOriginalPrice = p.originalListPrice > 0 ? `${p.originalListPrice.toLocaleString('it-IT', { minimumFractionDigits: 2 })} €` : '';
+
+      html += `
+        <article class="bg-white rounded-xl border border-steel/80 overflow-hidden flex flex-col group hover:shadow-lg transition-all duration-200">
+          <!-- Top Area: Brand & Discount Badges -->
+          <div class="p-3 pb-0 flex items-center justify-between">
+            <span class="text-[10px] font-mono font-bold text-teal uppercase tracking-wider">
+              ${p.brand}
+            </span>
+            <div class="flex items-center gap-1">
+              <span class="badge-sconto">-40%</span>
+            </div>
+          </div>
+
+          <!-- Product Icon Image -->
+          <div class="p-5 flex items-center justify-center bg-paper/60 my-2">
+            <span class="text-3xl text-teal group-hover:scale-110 transition-transform duration-200">⚙️</span>
+          </div>
+
+          <!-- Content -->
+          <div class="p-3 pt-0 flex-1 flex flex-col">
+            <span class="text-[10px] font-mono text-ink-faint">Cod: ${p.code}</span>
+            <h3 class="text-xs font-bold text-ink group-hover:text-teal transition-colors line-clamp-2 mt-1 leading-snug">
+              ${p.name}
+            </h3>
+
+            <!-- Price Breakdown with Sbarrato 10% and Total 40% -->
+            <div class="mt-auto pt-3 border-t border-steel/50">
+              ${p.originalListPrice > 0 ? `
+                <div class="flex items-center justify-between text-[10px] text-ink-muted">
+                  <span>Listino:</span>
+                  <span class="line-through">${formattedOriginalPrice}</span>
+                </div>
+                <div class="flex items-center justify-between text-[11px] text-ink-muted mt-0.5">
+                  <span class="text-outlet font-semibold">Prezzo scontato (-30%):</span>
+                  <span class="line-through font-mono font-bold text-slate-500">${formattedComparePrice}</span>
+                </div>
+              ` : ''}
+
+              <div class="mt-1 flex items-baseline justify-between">
+                <div>
+                  <span class="text-[9px] uppercase font-bold text-teal block">Prezzo Finale (-40%)</span>
+                  <span class="text-base font-black text-teal font-mono">${formattedFinalPrice}</span>
+                </div>
+                <a href="/products/${encodeURIComponent(p.id)}" class="px-2.5 py-1 bg-ink hover:bg-teal text-white text-[11px] font-bold rounded-lg transition-colors">
+                  Scheda
+                </a>
+              </div>
+            </div>
+          </div>
+        </article>
+      `;
+    }
+
+    productsGrid.innerHTML = html;
+  }
+
+  // Event Listeners
+  searchInput.addEventListener('input', applyFilters);
+  brandCheckboxes.forEach(cb => cb.addEventListener('change', applyFilters));
+  catCheckboxes.forEach(cb => cb.addEventListener('change', applyFilters));
+  priceRadios.forEach(r => r.addEventListener('change', applyFilters));
+
+  prevBtn.addEventListener('click', () => {
+    if (currentPage > 1) {
+      currentPage--;
+      render();
+      window.scrollTo({ top: 120, behavior: 'smooth' });
+    }
+  });
+
+  nextBtn.addEventListener('click', () => {
+    const totalPages = Math.ceil(filteredProducts.length / pageSize);
+    if (currentPage < totalPages) {
+      currentPage++;
+      render();
+      window.scrollTo({ top: 120, behavior: 'smooth' });
+    }
+  });
+
+  resetBtn.addEventListener('click', () => {
+    searchInput.value = '';
+    brandCheckboxes.forEach(cb => cb.checked = false);
+    catCheckboxes.forEach(cb => cb.checked = false);
+    priceRadios[0].checked = true;
+    applyFilters();
+  });
+
+  // Initial Run
+  applyFilters();
+</script>
