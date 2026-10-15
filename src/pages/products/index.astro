@@ -311,9 +311,20 @@ const topCategories = Object.entries(categoryCounts)
             </div>
           </div>
 
-          <!-- Product Icon Image -->
-          <div class="p-5 flex items-center justify-center bg-paper/60 my-2">
-            <span class="text-3xl text-teal group-hover:scale-110 transition-transform duration-200">⚙️</span>
+          <!-- Product Icon / Image -->
+          <div class="h-44 p-4 flex items-center justify-center bg-paper/60 my-2 overflow-hidden">
+            ${p.image ? `
+              <img 
+                src="${p.image}" 
+                alt="${p.name}" 
+                class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-200" 
+                loading="lazy"
+                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+              />
+              <span class="text-3xl text-teal group-hover:scale-110 transition-transform duration-200 hidden">⚙️</span>
+            ` : `
+              <span class="text-3xl text-teal group-hover:scale-110 transition-transform duration-200">⚙️</span>
+            `}
           </div>
 
           <!-- Content -->
