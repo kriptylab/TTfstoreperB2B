@@ -1,0 +1,342 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout 
+  title="Richiedi Preventivo B2B — TTF STORE"
+  description="Richiedi un preventivo personalizzato per attrezzature professionali Ho.Re.Ca. Risposta rapida da TTF GROUP S.R.L. entro 24 ore."
+>
+  <Header slot="header" />
+
+  <main class="min-h-screen bg-paper py-12">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Breadcrumb -->
+      <nav class="flex text-xs font-semibold text-ink-muted mb-8 gap-2 items-center">
+        <a href="/" class="hover:text-teal transition-colors">Home</a>
+        <span>/</span>
+        <a href="/products" class="hover:text-teal transition-colors">Catalogo</a>
+        <span>/</span>
+        <span class="text-teal font-bold font-mono">Richiesta Preventivo</span>
+      </nav>
+
+      <div class="bg-white rounded-3xl border border-steel shadow-sm p-6 sm:p-10">
+        
+        <!-- Header del Form -->
+        <div class="border-b border-steel pb-6 mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <div class="flex items-center gap-2 mb-2">
+              <span class="badge-sconto text-xs font-mono font-bold">PREVENTIVO UFFICIALE B2B</span>
+              <span class="text-xs text-gray-500 font-mono">Destinazione: info@ttfstore.com</span>
+            </div>
+            <h1 class="text-2xl sm:text-3xl font-extrabold text-ink tracking-tight">
+              Richiesta Preventivo & Fornitura
+            </h1>
+            <p class="text-sm text-ink-muted mt-1">
+              Compila il modulo per ricevere la quotazione con sconto riservato Ho.Re.Ca. e tempi di consegna.
+            </p>
+          </div>
+
+          <!-- Quick WhatsApp badge -->
+          <a
+            href="https://wa.me/393397234452?text=Salve%20TTF%20STORE,%20desidero%20un%20preventivo%20B2B%20rapido."
+            target="_blank"
+            rel="noopener noreferrer"
+            class="shrink-0 inline-flex items-center gap-2 px-4 py-2.5 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl font-bold text-xs hover:bg-emerald-100 transition-colors"
+          >
+            <svg class="w-4 h-4 fill-current text-emerald-600" viewBox="0 0 24 24">
+              <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+            </svg>
+            Preferisci WhatsApp?
+          </a>
+        </div>
+
+        <!-- Success Message (nascosto di default) -->
+        <div id="form-success" class="hidden mb-8 p-6 bg-teal-light border border-teal/30 rounded-2xl text-center">
+          <div class="w-12 h-12 bg-teal text-white rounded-full flex items-center justify-center mx-auto mb-3">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
+            </svg>
+          </div>
+          <h3 class="text-lg font-bold text-ink">Richiesta inviata con successo!</h3>
+          <p class="text-sm text-ink-muted mt-1 max-w-md mx-auto">
+            La tua richiesta è stata inoltrata a <strong>info@ttfstore.com</strong>. Un nostro consulente commerciale ti risponderà entro poche ore con l'offerta dedicata.
+          </p>
+          <a href="/products" class="mt-4 inline-block px-5 py-2.5 bg-ink text-white font-bold text-xs rounded-xl hover:bg-teal transition-colors">
+            Torna al Catalogo
+          </a>
+        </div>
+
+        <!-- Form Preventivo B2B -->
+        <form 
+          id="quote-form" 
+          action="https://formsubmit.co/info@ttfstore.com" 
+          method="POST" 
+          class="space-y-6"
+        >
+          <!-- Configurazione FormSubmit per email pulita e senza spam -->
+          <input type="hidden" name="_subject" id="hidden-subject" value="Nuova Richiesta Preventivo TTF STORE B2B" />
+          <input type="hidden" name="_captcha" value="false" />
+          <input type="hidden" name="_template" value="table" />
+          <input type="text" name="_honey" style="display:none" />
+
+          <!-- Articolo Selezionato (se passato via URL) -->
+          <div id="product-summary-box" class="hidden p-4 rounded-xl bg-teal-50 border border-teal-200">
+            <span class="text-[10px] font-mono uppercase font-bold text-teal-800 block">Articolo Specifico Selezionato:</span>
+            <div class="flex items-center justify-between gap-4 mt-1">
+              <div>
+                <p id="summary-prod-name" class="font-bold text-sm text-ink"></p>
+                <p id="summary-prod-details" class="text-xs text-ink-muted font-mono"></p>
+              </div>
+              <input type="hidden" name="articolo_selezionato" id="hidden-prod-info" value="" />
+            </div>
+          </div>
+
+          <!-- Dati Aziendali B2B -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label for="ragione_sociale" class="block text-xs font-bold text-ink uppercase tracking-wider mb-2 font-mono">
+                Ragione Sociale / Nome Attività <span class="text-red-500">*</span>
+              </label>
+              <input 
+                type="text" 
+                id="ragione_sociale" 
+                name="ragione_sociale" 
+                required 
+                placeholder="Es. Ristorante Da Mario S.r.l." 
+                class="w-full px-4 py-3 rounded-xl border border-steel bg-paper text-sm text-ink focus:outline-none focus:border-teal focus:bg-white transition-colors"
+              />
+            </div>
+
+            <div>
+              <label for="partita_iva" class="block text-xs font-bold text-ink uppercase tracking-wider mb-2 font-mono">
+                Partita IVA / Codice Fiscale <span class="text-red-500">*</span>
+              </label>
+              <input 
+                type="text" 
+                id="partita_iva" 
+                name="partita_iva" 
+                required 
+                placeholder="Es. IT01234567890 o COE SM..." 
+                class="w-full px-4 py-3 rounded-xl border border-steel bg-paper text-sm text-ink focus:outline-none focus:border-teal focus:bg-white transition-colors font-mono"
+              />
+            </div>
+          </div>
+
+          <!-- Contatti Referente -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div>
+              <label for="nome_referente" class="block text-xs font-bold text-ink uppercase tracking-wider mb-2 font-mono">
+                Nome e Cognome Referente <span class="text-red-500">*</span>
+              </label>
+              <input 
+                type="text" 
+                id="nome_referente" 
+                name="nome_referente" 
+                required 
+                placeholder="Mario Rossi" 
+                class="w-full px-4 py-3 rounded-xl border border-steel bg-paper text-sm text-ink focus:outline-none focus:border-teal focus:bg-white transition-colors"
+              />
+            </div>
+
+            <div>
+              <label for="email" class="block text-xs font-bold text-ink uppercase tracking-wider mb-2 font-mono">
+                Email Aziendale <span class="text-red-500">*</span>
+              </label>
+              <input 
+                type="email" 
+                id="email" 
+                name="email" 
+                required 
+                placeholder="ordini@tuodominio.it" 
+                class="w-full px-4 py-3 rounded-xl border border-steel bg-paper text-sm text-ink focus:outline-none focus:border-teal focus:bg-white transition-colors"
+              />
+            </div>
+
+            <div>
+              <label for="telefono" class="block text-xs font-bold text-ink uppercase tracking-wider mb-2 font-mono">
+                Telefono / Cellulare <span class="text-red-500">*</span>
+              </label>
+              <input 
+                type="tel" 
+                id="telefono" 
+                name="telefono" 
+                required 
+                placeholder="+39 333 1234567" 
+                class="w-full px-4 py-3 rounded-xl border border-steel bg-paper text-sm text-ink focus:outline-none focus:border-teal focus:bg-white transition-colors font-mono"
+              />
+            </div>
+          </div>
+
+          <!-- Località Consegna & Tipologia Attività -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label for="citta_consegna" class="block text-xs font-bold text-ink uppercase tracking-wider mb-2 font-mono">
+                Città e CAP di Destinazione
+              </label>
+              <input 
+                type="text" 
+                id="citta_consegna" 
+                name="citta_consegna" 
+                placeholder="Es. Rimini (RN) 47921" 
+                class="w-full px-4 py-3 rounded-xl border border-steel bg-paper text-sm text-ink focus:outline-none focus:border-teal focus:bg-white transition-colors"
+              />
+            </div>
+
+            <div>
+              <label for="tipo_attivita" class="block text-xs font-bold text-ink uppercase tracking-wider mb-2 font-mono">
+                Tipologia Attività
+              </label>
+              <select 
+                id="tipo_attivita" 
+                name="tipo_attivita" 
+                class="w-full px-4 py-3 rounded-xl border border-steel bg-paper text-sm text-ink focus:outline-none focus:border-teal focus:bg-white transition-colors"
+              >
+                <option value="Ristorante / Pizzeria">Ristorante / Pizzeria</option>
+                <option value="Bar / Caffetteria / Pub">Bar / Caffetteria / Pub</option>
+                <option value="Hotel / Struttura Ricettiva">Hotel / Struttura Ricettiva</option>
+                <option value="Pasticceria / Panificio">Pasticceria / Panificio</option>
+                <option value="Macelleria / Gastronomia">Macelleria / Gastronomia</option>
+                <option value="Rivenditore / Installatore HoReCa">Rivenditore / Installatore HoReCa</option>
+                <option value="Altro">Altro</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Dettaglio Richiesta o Note Aggiuntive -->
+          <div>
+            <label for="messaggio" class="block text-xs font-bold text-ink uppercase tracking-wider mb-2 font-mono">
+              Attrezzature Richieste o Note Particolari <span class="text-red-500">*</span>
+            </label>
+            <textarea 
+              id="messaggio" 
+              name="messaggio" 
+              rows="4" 
+              required 
+              placeholder="Indica i codici prodotto, quantitativi desiderati o richieste specifiche di voltaggio/allestimento..." 
+              class="w-full px-4 py-3 rounded-xl border border-steel bg-paper text-sm text-ink focus:outline-none focus:border-teal focus:bg-white transition-colors"
+            ></textarea>
+          </div>
+
+          <!-- Informativa Privacy -->
+          <div class="flex items-start gap-3 pt-2">
+            <input 
+              type="checkbox" 
+              id="privacy" 
+              name="privacy" 
+              required 
+              class="mt-1 w-4 h-4 text-teal rounded border-steel focus:ring-teal"
+            />
+            <label for="privacy" class="text-xs text-ink-muted">
+              Dichiaro di aver preso visione dell'informativa privacy e acconsento al trattamento dei dati aziendali per l'elaborazione del preventivo commerciale da parte di TTF GROUP S.R.L.
+            </label>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="pt-4 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-steel">
+            <div class="text-xs text-ink-muted font-mono">
+              Destinatario: <strong class="text-teal">info@ttfstore.com</strong>
+            </div>
+
+            <button 
+              type="submit" 
+              id="submit-btn"
+              class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 bg-teal hover:bg-teal-dark text-ink font-extrabold rounded-xl shadow-md transition-all duration-200 hover:scale-105 text-sm gap-2"
+            >
+              <span>Invia Richiesta Preventivo</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+              </svg>
+            </button>
+          </div>
+        </form>
+
+      </div>
+
+      <!-- Box informativo societario -->
+      <div class="mt-8 p-6 bg-white rounded-2xl border border-steel text-xs text-ink-muted flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div>
+          <span class="font-bold text-ink">TTF GROUP S.R.L.</span> · COE: SM26425<br>
+          Via Consiglio dei Sessanta 153, 47891 Dogana (RSM)
+        </div>
+        <div class="text-right font-mono">
+          Email: <a href="mailto:info@ttfstore.com" class="text-teal font-bold hover:underline">info@ttfstore.com</a><br>
+          WhatsApp: <a href="https://wa.me/393397234452" class="text-emerald-600 font-bold hover:underline">+39 339 723 4452</a>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <Footer slot="footer" />
+</Layout>
+
+<script is:inline>
+  // Autocompila i dati se arrivano parametri da scheda prodotto
+  const params = new URLSearchParams(window.location.search);
+  const prodId = params.get('prodId');
+  const prodName = params.get('prodName');
+  const prodCode = params.get('prodCode');
+  const prodBrand = params.get('prodBrand');
+  const prodPrice = params.get('prodPrice');
+
+  if (prodName || prodCode) {
+    const summaryBox = document.getElementById('product-summary-box');
+    const summaryName = document.getElementById('summary-prod-name');
+    const summaryDetails = document.getElementById('summary-prod-details');
+    const hiddenProd = document.getElementById('hidden-prod-info');
+    const hiddenSubj = document.getElementById('hidden-subject');
+    const msgArea = document.getElementById('messaggio');
+
+    summaryBox.classList.remove('hidden');
+    summaryName.textContent = prodName || prodCode;
+    summaryDetails.textContent = `Brand: ${prodBrand || '-'} | Codice: ${prodCode || '-'} | Prezzo B2B: ${prodPrice || '-'}`;
+    
+    const prodInfoStr = `${prodName || ''} (Cod. ${prodCode || ''}, Brand ${prodBrand || ''}, Prezzo: ${prodPrice || ''})`;
+    hiddenProd.value = prodInfoStr;
+    hiddenSubj.value = `Richiesta Preventivo: ${prodCode || ''} - ${prodName || ''}`;
+
+    if (msgArea && !msgArea.value) {
+      msgArea.value = `Desidero ricevere preventivo e disponibilità per 1 pz del prodotto: ${prodName} (Codice: ${prodCode}).`;
+    }
+  }
+
+  // Gestione invio asincrono con fetch per non uscire dalla pagina
+  const form = document.getElementById('quote-form');
+  const submitBtn = document.getElementById('submit-btn');
+  const successBox = document.getElementById('form-success');
+
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = 'Invio in corso...';
+
+      const formData = new FormData(form);
+
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Accept': 'application/json'
+          }
+        });
+
+        if (response.ok) {
+          form.classList.add('hidden');
+          successBox.classList.remove('hidden');
+          window.scrollTo({ top: successBox.offsetTop - 100, behavior: 'smooth' });
+        } else {
+          // Fallback submit standard
+          form.submit();
+        }
+      } catch (err) {
+        // Fallback submit standard
+        form.submit();
+      }
+    });
+  }
+</script>

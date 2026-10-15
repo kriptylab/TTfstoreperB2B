@@ -171,10 +171,13 @@ const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(w
                     Richiedi Preventivo WhatsApp
                   </a>
                   <a 
-                    href={`mailto:postmaster@ttfstore.com?subject=Ordine%20TTF%20STORE%20-%20${encodeURIComponent(product.name)}%20(Cod.%20${encodeURIComponent(product.code)})`}
-                    class="text-xs text-center text-gray-300 hover:text-white underline font-mono"
+                    href={`/preventivo?prodId=${encodeURIComponent(product.id)}&prodName=${encodeURIComponent(product.name)}&prodCode=${encodeURIComponent(product.code)}&prodBrand=${encodeURIComponent(product.brand)}&prodPrice=${encodeURIComponent(formattedFinalPrice || '')}`}
+                    class="text-xs text-center text-teal-light hover:text-white underline font-mono flex items-center justify-center gap-1"
                   >
-                    oppure richiedi via Email
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                    </svg>
+                    Oppure compila Form Mail (info@ttfstore.com)
                   </a>
                   <span class="text-[10px] text-gray-400 text-center font-mono">TTF GROUP S.R.L. · COE SM26425</span>
                 </div>
@@ -189,7 +192,9 @@ const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(w
                   <span>WhatsApp: +39 339 723 4452</span>
                 </a>
                 <span>·</span>
-                <a href="mailto:postmaster@ttfstore.com" class="text-teal font-bold hover:underline">postmaster@ttfstore.com</a>
+                <a href={`/preventivo?prodId=${encodeURIComponent(product.id)}&prodName=${encodeURIComponent(product.name)}&prodCode=${encodeURIComponent(product.code)}&prodBrand=${encodeURIComponent(product.brand)}&prodPrice=${encodeURIComponent(formattedFinalPrice || '')}`} class="text-teal font-bold hover:underline">
+                  info@ttfstore.com (Form)
+                </a>
               </span>
             </div>
           </div>
