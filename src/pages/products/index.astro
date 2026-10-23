@@ -319,7 +319,7 @@ const topCategories = Object.entries(categoryCounts)
                 alt="${p.name}" 
                 class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-200" 
                 loading="lazy"
-                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                onerror="this.style.display='none'; this.nextElementSibling.classList.remove('hidden'); this.nextElementSibling.style.display='flex';"
               />
               <span class="text-3xl text-teal group-hover:scale-110 transition-transform duration-200 hidden">⚙️</span>
             ` : `

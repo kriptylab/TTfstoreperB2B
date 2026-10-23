@@ -90,7 +90,8 @@ function normalizeProduct(row, headerMap, brand, sourceFile) {
     subCategory: getVal('Sottocategoria1') || '',
     name: name,
     description: getVal('Descrizione lunga') || name,
-    image: getVal('Immagine') || '',
+    image: getVal('Immagine') ? `/images/products/${getVal('Immagine')}` : '',
+    imageFileName: getVal('Immagine') || '',
     specifications: specs,
     originalListPrice: originalListPrice, // Prezzo listino originale
     comparePrice: baseDiscountedPrice,     // Prezzo sbarrato (-30%)
